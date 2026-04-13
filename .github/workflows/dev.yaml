@@ -46,36 +46,32 @@ jobs:
 
             sudo systemctl start docker
 
-            # Login to ACR
-            sudo docker login ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }} -u ${{ secrets.AZURE_REGISTRY_USERNAME }} -p ${{ secrets.AZURE_REGISTRY_PASSWORD }}
-
-            # Pull latest image
-            sudo docker pull ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/react-blog:dev
-
-            # Stop old container
-            sudo docker stop react-blog || true
-            sudo docker rm react-blog || true
-
-            # Run new container
-            # install docker-compose if not present
-            if [ ! -d "react-blog-app" ]; then
-              git clone https://github.com/krishn91/react-blog-app.git
-            fi
-
-            cd app
-            git pull origin dev
+            # Install docker-compose if not present
             if ! command -v docker-compose &> /dev/null
             then
               sudo apt install -y docker-compose
             fi
 
-            # clean old containers
-            sudo docker stop react-blog || true
-            sudo docker rm react-blog || true
+            # Login to ACR
+            sudo docker login ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }} -u ${{ secrets.AZURE_REGISTRY_USERNAME }} -p ${{ secrets.AZURE_REGISTRY_PASSWORD }}
 
-            # pull latest image
-            sudo docker pull ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/react-blog:dev
+            # Clone repo if not exists
+            if [ ! -d "react-blog-app" ]; then
+              git clone https://github.com/krishn91/react-blog-app.git
+            fi
 
-            # run using docker-compose
+            cd react-blog-app
+
+            # Ensure correct branch
+            git checkout dev || true
+            git pull origin dev
+
+            # DEBUG (important)
+            pwd
+            ls -la
+
+            # Stop old containers
             sudo docker-compose down || true
-            sudo docker-compose up -d
+
+            # Start new containers
+            sudo docker-compose up -d --build
