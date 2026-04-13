@@ -9,9 +9,10 @@ services:
 
   backend:
     image: node:18
+    container_name: json-server
     working_dir: /app
     volumes:
-      - .:/app
+      - ./data:/app/data
     ports:
       - "8000:8000"
-    command: npx json-server --watch data/db.json --port 8000 --cors
+    command: sh -c "npm install -g json-server && json-server --watch /app/data/db.json --host 0.0.0.0 --port 8000"
