@@ -1,22 +1,23 @@
 {
   "posts": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Getting Started with React",
       "body": "React is a JavaScript library for building user interfaces. It lets you compose complex UIs from small, isolated pieces of code called components. React has been designed from the start for gradual adoption, and you can use as little or as much React as you need.",
-      "author": "Alice"
+      "author": "Krishn"
     },
     {
-      "id": 2,
       "title": "Understanding React Router",
       "body": "React Router is the standard routing library for React. It keeps your UI in sync with the URL. It has a simple API with powerful features like lazy code loading, dynamic route matching, and location transition handling built right in.",
-      "author": "Bob"
+      "author": "Rushi",
+      "id": "2"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Working with Forms in React",
       "body": "Handling forms in React involves controlling the input elements through state. Controlled components give you full control over the form data, making it easy to validate, transform, and submit user input in a predictable way.",
-      "author": "Alice"
+      "author": "Krishn"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
