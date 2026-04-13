@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import PostCard from '../components/PostCard';
+import { API_BASE_URL } from '../config';
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -7,7 +8,7 @@ function Home() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:8000/posts')
+    fetch(`${API_BASE_URL}/posts`)
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch posts');
         return res.json();

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import PostForm from '../components/PostForm';
+import { API_BASE_URL } from '../config';
 
 function EditPost() {
   const { id } = useParams();
@@ -9,7 +10,7 @@ function EditPost() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/posts/${id}`)
+    fetch(`${API_BASE_URL}/posts/${id}`)
       .then(res => res.json())
       .then(data => {
         setPost(data);
@@ -18,7 +19,7 @@ function EditPost() {
   }, [id]);
 
   const handleSubmit = async (postData) => {
-    const res = await fetch(`http://localhost:8000/posts/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/posts/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postData),

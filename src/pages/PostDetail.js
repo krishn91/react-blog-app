@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 
 function PostDetail() {
   const { id } = useParams();
@@ -9,7 +10,7 @@ function PostDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/posts/${id}`)
+    fetch(`${API_BASE_URL}/posts/${id}`)
       .then(res => {
         if (!res.ok) throw new Error('Post not found');
         return res.json();
@@ -27,7 +28,7 @@ function PostDetail() {
   const handleDelete = () => {
     if (!window.confirm('Are you sure you want to delete this post?')) return;
 
-    fetch(`http://localhost:8000/posts/${id}`, { method: 'DELETE' })
+    fetch(`${API_BASE_URL}/posts/${id}`, { method: 'DELETE' })
       .then(() => navigate('/'))
       .catch(err => setError(err.message));
   };

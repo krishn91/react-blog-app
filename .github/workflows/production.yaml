@@ -1,0 +1,77 @@
+name: Production Deployment
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure Container Registry
+        run: |
+          echo "${{ secrets.AZURE_REGISTRY_PASSWORD }}" | docker login ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }} -u ${{ secrets.AZURE_REGISTRY_USERNAME }} --password-stdin
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/react-blog:main .
+
+      - name: Push Docker Image
+        run: |
+          docker push ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}/react-blog:main
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to VM via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USERNAME }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            sudo apt update
+
+            # Install Docker if not present
+            if ! command -v docker &> /main/null
+            then
+              sudo apt install -y docker.io
+            fi
+
+            sudo systemctl start docker
+
+            # Install docker-compose if not present
+            if ! command -v docker-compose &> /main/null
+            then
+              sudo apt install -y docker-compose
+            fi
+
+            # Login to ACR
+            sudo docker login ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }} -u ${{ secrets.AZURE_REGISTRY_USERNAME }} -p ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+
+            # Clone repo if not exists
+            if [ ! -d "react-blog-app" ]; then
+              git clone https://github.com/krishn91/react-blog-app.git
+            fi
+
+            cd react-blog-app
+
+            # Ensure correct branch
+            git checkout main || true
+            git pull origin main
+
+            # DEBUG (important)
+            pwd
+            ls -la
+
+            # Stop old containers
+            sudo docker-compose down || true
+
+            # Start new containers
+            sudo docker-compose up -d --build
