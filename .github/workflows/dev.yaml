@@ -58,7 +58,7 @@ jobs:
 
             # Run new container
             # install docker-compose if not present
-            if [ ! -d "app" ]; then
+            if [ ! -d "react-blog-app" ]; then
               git clone https://github.com/krishn91/react-blog-app.git
             fi
 
