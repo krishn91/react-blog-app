@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    command: npm start
+
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    command: npm run server
