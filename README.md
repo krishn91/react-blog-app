@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# React Blog App - DevOps Deployment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🚀 Project Overview
+This project demonstrates deployment of a React Blog Application using Docker, Azure VM, Azure Container Registry (ACR), and GitHub Actions CI/CD pipelines.
+---
 
-## Available Scripts
+## 🧠 Architecture
+GitHub → GitHub Actions → ACR → Azure VM → Docker Compose → Application
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ⚙️ Technologies Used
+- React.js
+- JSON Server
+- Docker & Docker Compose
+- GitHub Actions
+- Microsoft Azure (VM + ACR)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🔄 CI/CD Workflow
 
-### `npm test`
+### Environments:
+| Branch | Workflow | Environment |
+|--------|---------|------------|
+| dev | dev.yaml | Development |
+| staging | staging.yaml | Staging |
+| main | prod.yaml | Production |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🐳 Docker Setup
+- Multi-container setup:
+  - Frontend (React build using serve)
+  - Backend (JSON Server)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🌐 Application URLs
+- Frontend: http://104.211.72.72
+- Backend: http://104.211.72.72:8000/posts
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🔐 Secrets Used
+- Azure Registry Credentials
+- VM SSH Access
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📌 Features
+- Automated deployment via GitHub Actions
+- Multi-environment support
+- Dockerized architecture
+- Azure cloud deployment
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🚀 How to Run Locally
+```bash
+docker-compose up --build
